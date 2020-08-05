@@ -1,40 +1,104 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Arrays;
-
+import java.util.StringTokenizer;
 public class Main {
-    public static void main(String[] args) {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+    static int size = 0;
+    public static class Node {
+        Object data;
+        Node link;
+    }
 
-        boolean[] numberArray = new boolean[2000001];
+    public static class Stack
+    {
+        Node top;
 
-        try {
-            int n = Integer.valueOf(bufferedReader.readLine());
-            int inputData;
-            for (int i = 0; i < n; i++) {
-                numberArray[Integer.valueOf(bufferedReader.readLine()) + 1000000] = true;
+        void push (String x)
+        {
+            Node temp;
+            if (top == null)
+            {
+                top = new Node();
+                top.data = x;
+                top.link = null;
             }
-
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i < numberArray.length; i++) {
-                if (numberArray[i]) {
-                    result.append((i - 1000000) + "\n");
-                }
+            else
+            {
+                temp = new Node();
+                temp.data = x;
+                temp.link = top;
+                top = temp;
             }
-            System.out.println(result.toString());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (Exception e2) {
-                e2.printStackTrace();
+            size ++;
+        }
+
+        void pop()
+        {
+            if (top == null)
+                System.out.println(-1);
+            else
+            {
+                System.out.println(top.data);
+                top = top.link;
+                size --;
+            }
+        }
+
+        void size()
+        {
+            System.out.println(size);
+        }
+
+        void isEmpty()
+        {
+            if (top == null)
+                System.out.println(1);
+            else
+                System.out.println(0);
+        }
+
+        void top()               // 스택에서 원소 값을 반환
+        {
+            if (top == null)
+                System.out.println(-1);
+            else
+                System.out.println(top.data);
+        }
+
+    }
+
+
+    public static void main(String[] args) throws NumberFormatException, IOException  {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+        Stack stk = new Stack();
+        for (int i = 0; i <= n; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            String stn = st.nextToken();
+
+            switch (stn) {
+                case "push":
+                    stk.push(st.nextToken());
+                    break;
+                case "pop":
+                    stk.pop();
+                    break;
+                case "size":
+                    stk.size();
+                    break;
+                case "empty":
+                    stk.isEmpty();
+                    break;
+                case "top":
+                    stk.top();
+                    break;
+
+                default:
+                    break;
             }
         }
 
     }
+
 }
